@@ -7,22 +7,22 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MembreRepository::class)]
-class Membre
+class Membre extends User
 {
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $adresse = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $dateInscription = null;
 
-    public function getId(): ?int
+    public function __construct()
     {
-        return $this->id;
+        $this->dateInscription = new \DateTime();
+    }
+
+    public function getTypeCompte(): string
+    {
+        return 'membre';
     }
 
     public function getAdresse(): ?string
