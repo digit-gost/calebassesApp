@@ -5,8 +5,11 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: UserRepository::class)]
-class User
+#[ORM\Entity]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'type_compte', type: 'string')]
+#[ORM\DiscriminatorMap(['membre' => Membre::class])]
+abstract class User
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -21,6 +24,13 @@ class User
 
     #[ORM\Column(length: 20)]
     private ?string $telephone = null;
+
+    #[ORM\Column(length: 200)]
+    private ?string $email = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $motDePasse = null;
+    abstract public function getTypeCompte(): string;
 
     public function getId(): ?int
     {
@@ -59,6 +69,30 @@ class User
     public function setTelephone(string $telephone): static
     {
         $this->telephone = $telephone;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getMotDePasse(): ?string
+    {
+        return $this->motDePasse;
+    }
+
+    public function setMotDePasse(string $motDePasse): static
+    {
+        $this->motDePasse = $motDePasse;
 
         return $this;
     }
