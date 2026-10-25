@@ -25,7 +25,7 @@ abstract class User
     #[ORM\Column(length: 20)]
     private ?string $telephone = null;
 
-    #[ORM\Column(length: 200)]
+    #[ORM\Column(length: 200, unique: true)]
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
